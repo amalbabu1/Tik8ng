@@ -4,11 +4,11 @@ const { sequelize } = require('../db/connect');
 const User = sequelize.define(
   'User',
   {
-    firstName: {
+    firstname: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    lastName: {
+    lastname: {
       type: DataTypes.STRING,
       allowNull: false,
     },

@@ -4,8 +4,10 @@ const User = require('./User');
 
 const Event = sequelize.define('Event', {
   name: {
+    //Movie Show
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   createdBy: {
     type: DataTypes.INTEGER,

@@ -4,13 +4,17 @@ const morgan = require('morgan');
 const { connectDB } = require('./db/connect');
 const UserModel = require('./models/User');
 const EventModel = require('./models/Event');
+const EventOptionsModel = require('./models/EventOptions');
+const initModel = require('./utils/db_utils');
 
 dotenv.config();
 
 const start = async () => {
   await connectDB();
-  UserModel.sync();
-  EventModel.sync();
+  await UserModel.sync();
+  await EventModel.sync();
+  await EventOptionsModel.sync({ alter: true });
+  initModel();
 };
 
 start();
