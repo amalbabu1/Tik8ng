@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const bodyParser = require('body-parser');
 
 const { connectDB } = require('./db/connect');
 const UserModel = require('./models/User');
@@ -17,11 +18,12 @@ const userRoutes = require('./routes/userRoutes');
 dotenv.config();
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 app.use(helmet());
 app.use(express.json());
 app.use(cors());
-
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
