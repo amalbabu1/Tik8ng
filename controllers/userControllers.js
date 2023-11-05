@@ -41,7 +41,13 @@ const signUpController = async (req, res) => {
         email: profile?.email,
       },
     });
-    if (db_user) res.status(StatusCodes.BAD_REQUEST).json({ msg: 'User already exists' });
+
+    if (db_user) {
+      //if already signedup using google auth
+      const payload = { email: db_user.email, id: db_user.id, admin: db_user.isAdmin };
+      const token = createJWT({ payload });
+      return res.status(StatusCodes.OK).json({ msg: 'Logged in', token, payload });
+    }
     try {
       const created_user = await User.create({
         firstname: profile?.given_name,
@@ -107,7 +113,7 @@ const siginInController = async (req, res) => {
     admin: db_user.isAdmin,
   };
   const token = createJWT({ payload });
-  return res.status(StatusCodes.OK).json({ msg: 'LoggedIn', token, user: payload });
+  return res.status(StatusCodes.OK).json({ msg: 'Logged in', token, user: payload });
 };
 
 module.exports = {
