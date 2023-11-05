@@ -4,18 +4,14 @@ const EventOptions = require('../models/EventOptions');
 const User = require('../models/User');
 
 async function findOrCreateUser() {
-  const user = await User.findOrCreate({
-    where: { email: 'testuser@gmail.com' },
-    defaults: {
-      firstname: 'TestUser',
-      lastname: 'admin',
-      isAdmin: true,
-    },
+  const user = await User.create({
+    firstname: 'TestUser',
+    lastname: 'admin',
+    email: 'testuser@gmail1.com',
+    isAdmin: true,
+    password: 'password',
   });
-  if (user) {
-    console.log(user);
-    return user[0];
-  }
+  console.log(user);
 }
 
 async function findOrCreateEvent() {
@@ -65,7 +61,15 @@ async function createEventOptions() {
 }
 
 module.exports = async () => {
+  // await findOrCreateUser();
   // await findOrCreateEvent();
-  await createEventOptions();
+  // await createEventOptions();
+  const user = await User.findOne({
+    where: {
+      email: 'testuser@gmail1.com',
+    },
+  });
+  console.log(user.comparePassword('password1'));
+  // console.log(User.compare('password'));
   console.log('INSERTING DATA TO MODELS');
 };

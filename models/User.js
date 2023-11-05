@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { sequelize } = require('../db/connect');
+const bcrypt = require('bcrypt');
 
 const User = sequelize.define(
   'User',
@@ -15,10 +16,23 @@ const User = sequelize.define(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isEmail: true,
+      },
+    },
+    password: {
+      type: DataTypes.STRING,
+      //setters
+      set(value) {
+        this.setDataValue('password', bcrypt.hashSync(value, 12));
+      },
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
+    },
+    token: {
+      type: DataTypes.STRING,
     },
   },
   {
@@ -30,5 +44,9 @@ const User = sequelize.define(
     ],
   }
 );
-
+//instance methods
+User.prototype.comparePassword = function (candidatePassword) {
+  const ismatch = bcrypt.compareSync(candidatePassword, this.password);
+  return ismatch;
+};
 module.exports = User;
