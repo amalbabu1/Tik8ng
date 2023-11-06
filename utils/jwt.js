@@ -9,7 +9,7 @@ const createJWT = ({ payload }) => {
 };
 
 const isTokenValid = ({ token }) => {
-  return jwt, jwt.verify(token, process.env.JWT_SECRET);
+  return jwt.verify(token, process.env.JWT_SECRET);
 };
 
 module.exports = {

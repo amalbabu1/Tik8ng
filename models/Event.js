@@ -15,9 +15,14 @@ const Event = sequelize.define('Event', {
       model: User,
       key: 'id',
     },
+    allowNull: false,
   },
   details: {
     type: DataTypes.STRING,
+  },
+  active: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
   },
 });
 
